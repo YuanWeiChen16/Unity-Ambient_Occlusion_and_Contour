@@ -16,19 +16,38 @@ public class UISetting : MonoBehaviour
     public Toggle Silhouette;
     public Dropdown renderMode;
     public Toggle SSAODebug;
+    public InputField textName;
     bool debugstate = false;
     bool silhouetteState = false;
     bool SSAODebugState = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        Vector2 size = menu.rectTransform.sizeDelta / 2;
+        Vector2 size = menu.rectTransform.sizeDelta * 2;
         menu.rectTransform.anchoredPosition = new Vector2(Screen.width - size.x, Screen.height - size.y);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
+            if (camera != null && camera.GetComponent<SmoothMouseLook>() != null)
+            {
+                camera.GetComponent<SmoothMouseLook>().setMenuState();
+            }
+            else
+            {
+                GameObject menu = GameObject.FindGameObjectWithTag("UI");
+                if (menu != null)
+                {
+                    menu.GetComponent<Canvas>().enabled = !menu.GetComponent<Canvas>().enabled;
+                }
+                
+            }
+        }
         if (GetComponent<Canvas>().enabled)
         {
             // maxOb value
@@ -97,13 +116,19 @@ public class UISetting : MonoBehaviour
 
     public void onClick()
     {
-        string path = EditorUtility.OpenFilePanel("Load Scene", "", "txt");
-        path = path.Replace('\\', '/');
-        path = FileUtil.GetProjectRelativePath(path);
+
+        string path = textName.text;
         Debug.Log(path);
-        TextAsset settingfile = (TextAsset)AssetDatabase.LoadAssetAtPath(path, typeof(TextAsset));
+        TextAsset settingfile = Resources.Load<TextAsset>(path);
         loadScene.load(settingfile);
         renderMode.value = 3;
+        //string path = EditorUtility.OpenFilePanel("Load Scene", "", "txt");
+        //path = path.Replace('\\', '/');
+        //path = FileUtil.GetProjectRelativePath(path);
+        //Debug.Log(path);
+        //TextAsset settingfile = (TextAsset)AssetDatabase.LoadAssetAtPath(path, typeof(TextAsset));
+        //loadScene.load(settingfile);
+        //renderMode.value = 3;
     }
 
     public void OnRenderModeChange()
@@ -126,4 +151,6 @@ public class UISetting : MonoBehaviour
         }
 
     }
+
+
 }

@@ -8,6 +8,7 @@ TagManager:
   - UI
   - Silhouette
   - SimpleAO
+  - cam
   layers:
   - Default
   - TransparentFX

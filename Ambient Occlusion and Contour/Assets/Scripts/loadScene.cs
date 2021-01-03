@@ -47,6 +47,7 @@ public class loadScene : MonoBehaviour
     public static bool load(TextAsset LoadFile)
     {
         DefaultRendering();
+        GameObject.FindGameObjectWithTag("cam").active = false;
         clear();
         string light_type = "Point Light";
         if (LoadFile == null)
@@ -171,7 +172,8 @@ public class loadScene : MonoBehaviour
                         if (data[0] == "path")
                         {
                             //DestroyImmediate(objsList[size - 1]);
-                            objsList.Add(Instantiate((GameObject)AssetDatabase.LoadAssetAtPath(data[1], typeof(GameObject))));
+                            //objsList.Add(Instantiate((GameObject)AssetDatabase.LoadAssetAtPath(data[1], typeof(GameObject))));
+                            objsList.Add(Instantiate(Resources.Load<GameObject>(data[1])));
                             size = objsList.Count;
                             objsList[size - 1].name = objsList[size - 1].name.Remove(objsList[size - 1].name.Length - 7);
                             objsList[size - 1].tag = "AOV";

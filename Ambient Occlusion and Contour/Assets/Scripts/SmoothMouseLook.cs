@@ -50,7 +50,15 @@ public class SmoothMouseLook : MonoBehaviour
             menuOn = !menuOn;
         }
     }
-
+    public void setMenuState()
+    {
+        GameObject menu = GameObject.FindGameObjectWithTag("UI");
+        if (menu != null)
+        {
+            menu.GetComponent<Canvas>().enabled = !menuOn;
+        }
+        menuOn = !menuOn;
+    }
     void Start()
     {
         Rigidbody rb = GetComponent<Rigidbody>();

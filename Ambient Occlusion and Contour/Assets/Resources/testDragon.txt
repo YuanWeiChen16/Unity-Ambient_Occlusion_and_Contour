@@ -1,5 +1,5 @@
 camera
-p 0 -11.33 -14.36
+p 0 38.2 -63.3
 r 0 0 0 
 s 1 1 1
 depth -1
@@ -8,18 +8,17 @@ c AOVCameraScript
 c AmplifyOcclusionEffect
 
 light
-p 0 -6.18 0 
+p 6 -9 6 
 r 0 0 0 
-s 1 1 1
-t 1
-range 50
+s 1 1 1 
+t 2
 color 1 1 1
-intensity 2.43
+intensity 1
 
 prefab
-path Assets/church.prefab
+path dragon_vrip_res3
 p 0 0 0
-r 0 90 0
+r 0 0 0
 s 1 1 1
 
 parameters
