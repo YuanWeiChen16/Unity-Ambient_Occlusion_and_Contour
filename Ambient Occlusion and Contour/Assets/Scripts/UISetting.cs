@@ -14,8 +14,11 @@ public class UISetting : MonoBehaviour
     public Text debugMixText;
     public Toggle debugShow;
     public Toggle Silhouette;
+    public Dropdown renderMode;
+    public Toggle SSAODebug;
     bool debugstate = false;
     bool silhouetteState = false;
+    bool SSAODebugState = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -80,6 +83,15 @@ public class UISetting : MonoBehaviour
                     }
                 }
             }
+            if (SSAODebug.isOn != SSAODebugState)
+            {
+                SSAODebugState = SSAODebug.isOn;
+                GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
+                if (camera.GetComponent<AmplifyOcclusionEffect>() != null)
+                {
+                    camera.GetComponent<AmplifyOcclusionEffect>().changeApplyMode(SSAODebugState ? 2 : 0);
+                }
+            }
         }
     }
 
@@ -91,5 +103,27 @@ public class UISetting : MonoBehaviour
         Debug.Log(path);
         TextAsset settingfile = (TextAsset)AssetDatabase.LoadAssetAtPath(path, typeof(TextAsset));
         loadScene.load(settingfile);
+        renderMode.value = 3;
+    }
+
+    public void OnRenderModeChange()
+    {
+        loadScene.DefaultRendering();
+        if(renderMode.value == 0)
+        {
+            GameObject SAO = GameObject.FindGameObjectWithTag("SimpleAO");
+            SAO.GetComponent<SimpleAO>().enabled = true;
+        }
+        else if (renderMode.value == 1)
+        {
+            GameObject AO = GameObject.FindGameObjectWithTag("MainCamera");
+            AO.GetComponent<AmplifyOcclusionEffect>().enabled = true;
+        }
+        else if (renderMode.value == 2)
+        {
+            GameObject AO = GameObject.FindGameObjectWithTag("MainCamera");
+            AO.GetComponent<AOVCameraScript>().enabled = true;
+        }
+
     }
 }

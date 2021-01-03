@@ -168,6 +168,13 @@ public class AmplifyOcclusionEffect : MonoBehaviour
 	private bool useMRTBlendingFallback = false;
 	private bool checkedforMRTBlendingFallback = false;
 
+    public void changeApplyMode(int state)
+    {
+        if (state == 0) ApplyMethod = ApplicationMethod.PostEffect;
+        else if (state == 1) ApplyMethod = ApplicationMethod.Deferred;
+        else if (state == 2) ApplyMethod = ApplicationMethod.Debug;
+    }
+
 	// Command buffer
 	private struct CmdBuffer
 	{

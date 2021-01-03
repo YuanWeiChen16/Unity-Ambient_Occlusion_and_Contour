@@ -32,9 +32,21 @@ public class loadScene : MonoBehaviour
 
     //    }
     //}
-
+    public static void DefaultRendering()
+    {
+        GameObject SAO = GameObject.FindGameObjectWithTag("SimpleAO");
+        if (SAO != null)
+            SAO.GetComponent<SimpleAO>().enabled = false;
+        GameObject AO = GameObject.FindGameObjectWithTag("MainCamera");
+        if (AO != null)
+        {
+            AO.GetComponent<AmplifyOcclusionEffect>().enabled = false;
+            AO.GetComponent<AOVCameraScript>().enabled = false;
+        }
+    }
     public static bool load(TextAsset LoadFile)
     {
+        DefaultRendering();
         clear();
         string light_type = "Point Light";
         if (LoadFile == null)
@@ -108,6 +120,7 @@ public class loadScene : MonoBehaviour
                         else if (data[0] == "c" && data[1] == "AOVCameraScript")
                         {
                             objsList[size - 1].AddComponent<AOVCameraScript>();
+                            objsList[size - 1].GetComponent<AOVCameraScript>().enabled = false;
                             scriptPlace["AOVCameraScript"] = size - 1;
                         }
                         else if (data[0] == "c" && data[1] == "SmoothMouseLook")
