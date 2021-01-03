@@ -1,0 +1,24 @@
+camera
+p 0 38.2 -63.3
+r 0 0 0 
+s 1 1 1
+depth -1
+c SmoothMouseLook
+c AOVCameraScript
+c AmplifyOcclusionEffect
+
+light
+p 6 -9 6 
+r 0 0 0 
+s 1 1 1 
+t 2
+color 1 1 1
+intensity 1
+
+prefab
+path Assets/dragon_vrip_res3.prefab
+p 0 0 0
+r 0 0 0
+s 1 1 1
+
+parameters

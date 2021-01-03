@@ -23,7 +23,7 @@ public class AOVCameraScript : MonoBehaviour
         Debug.Log("Enable");
         var camera = GetComponent<Camera>();
         camera.depthTextureMode = DepthTextureMode.DepthNormals;
-
+        
         bufferAOV = new RenderTexture(camera.pixelWidth, camera.pixelHeight, 24, RenderTextureFormat.RHalf);
 
         matRestoreDepth = (Material)Resources.Load("AOVRestoreDepth", typeof(Material));
