@@ -5,7 +5,7 @@ using System.Collections.Generic;
 [AddComponentMenu("Camera-Control/Smooth Mouse Look")]
 public class SmoothMouseLook : MonoBehaviour
 {
-
+    
     public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
     public RotationAxes axes = RotationAxes.MouseXAndY;
     public bool onlyOnButtonDown = true;
@@ -30,8 +30,53 @@ public class SmoothMouseLook : MonoBehaviour
     public float frameCounter = 20;
 
     Quaternion originalRotation;
-
+    bool menuOn = true;
     void Update()
+    {
+        if (!menuOn)
+            mouseMove();
+        else
+        {
+
+        }
+
+        if(Input.GetKeyDown("s"))
+        {
+            GameObject menu = GameObject.FindGameObjectWithTag("UI");
+            if (menu != null)
+            {
+                menu.GetComponent<Canvas>().enabled = !menuOn;
+            }
+            menuOn = !menuOn;
+        }
+    }
+
+    void Start()
+    {
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb)
+            rb.freezeRotation = true;
+        originalRotation = transform.localRotation;
+    }
+
+    public static float ClampAngle(float angle, float min, float max)
+    {
+        angle = angle % 360;
+        if ((angle >= -360F) && (angle <= 360F))
+        {
+            if (angle < -360F)
+            {
+                angle += 360F;
+            }
+            if (angle > 360F)
+            {
+                angle -= 360F;
+            }
+        }
+        return Mathf.Clamp(angle, min, max);
+    }
+
+    public void mouseMove()
     {
         if (onlyOnButtonDown && !Input.GetMouseButton(0))
         {
@@ -123,30 +168,5 @@ public class SmoothMouseLook : MonoBehaviour
             Quaternion yQuaternion = Quaternion.AngleAxis(rotAverageY, Vector3.left);
             transform.localRotation = originalRotation * yQuaternion;
         }
-    }
-
-    void Start()
-    {
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb)
-            rb.freezeRotation = true;
-        originalRotation = transform.localRotation;
-    }
-
-    public static float ClampAngle(float angle, float min, float max)
-    {
-        angle = angle % 360;
-        if ((angle >= -360F) && (angle <= 360F))
-        {
-            if (angle < -360F)
-            {
-                angle += 360F;
-            }
-            if (angle > 360F)
-            {
-                angle -= 360F;
-            }
-        }
-        return Mathf.Clamp(angle, min, max);
     }
 }
